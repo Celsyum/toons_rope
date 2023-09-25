@@ -1,0 +1,7 @@
+Tasks:
+  1. add background image (game work in landscape mode with all aspect ratios.)
+  2. load level data
+    2.1 Level data consists of X and Y positions of each point: {point1.x, point1.y, point2.x, point2.y...}. 
+        X and Y positions can vary from 0 to 1000
+        Coordinate space is centered at top left corner, so Y position is inverted (Y increases when going down). 
+  
