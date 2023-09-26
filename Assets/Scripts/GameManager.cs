@@ -3,17 +3,36 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.Playables;
 
 public class GameManager : MonoBehaviour
 {
+    private static GameManager _instance;
 
-    public static GameManager Instance;
+    public static GameManager Instance
+    {
+        get
+        {
+            return _instance;
+        }
+        private set
+        {
+            _instance = value;
+        }
+    }
+
+    [HideInInspector]
     public GameData gameData;
 
-    private void Awake()
+    [HideInInspector]
+    public UnityEngine.Events.UnityEvent onLevelDataLoaded;
+
+    public int levelToLoad = 0;
+
+     private void Awake()
     {
-        if (Instance)
+        if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
             return;
@@ -22,23 +41,42 @@ public class GameManager : MonoBehaviour
         Instance = this;
 
         this.LoadLevelData();
-        GameData game_data = this.LoadState();
-        if (game_data != null)
-        {
-            this.gameData = game_data;
-        }
-        else
-        {
-            this.gameData = new GameData(this);
-        }   
+
+        DontDestroyOnLoad(gameObject); //not needed if you remove GameManager from other scenes
     }
 
 
-    private void LoadLevelData()
+    public void LoadLevelData()
     {
-        Debug.Log(Application.persistentDataPath);
-        string levelData = File.ReadAllText(Path.Combine(Application.persistentDataPath, "level_data.json"));
-        ConfigData.CONFIG_DATA = JsonUtility.FromJson<ConfigData>(levelData);
+        StartCoroutine(GetText(Path.Combine(Application.streamingAssetsPath, "level_data.json")));
+    }
+
+    IEnumerator GetText(string uri)
+    {
+        UnityWebRequest www = new UnityWebRequest(uri);
+        www.downloadHandler = new DownloadHandlerBuffer();
+        yield return www.SendWebRequest();
+
+        if (www.result != UnityWebRequest.Result.Success)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            ConfigData.CONFIG_DATA = JsonUtility.FromJson<ConfigData>(www.downloadHandler.text);
+
+            GameData game_data = this.LoadState();
+            if (game_data != null)
+            {
+                this.gameData = game_data;
+            }
+            else
+            {
+                this.gameData = new GameData(this);
+            }
+
+            onLevelDataLoaded.Invoke();
+        }
     }
 
     public static void SaveState(GameManager manager)
