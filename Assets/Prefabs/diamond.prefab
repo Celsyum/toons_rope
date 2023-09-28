@@ -9,8 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2094084746149959867}
+  - component: {fileID: 3522124977996309748}
   m_Layer: 0
-  m_Name: button_magenta
+  m_Name: diamond
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,6 +34,25 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3522124977996309748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094084746149959861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a9afd6cc7a761541bb037c4234b36de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background: {fileID: 167287156673674049}
+  onPressed:
+    m_PersistentCalls:
+      m_Calls: []
+  texturePath: {fileID: 2800000, guid: b437396d8ac56084e8e841e3634941ae, type: 3}
+  text: {fileID: 2593975098175334537}
+  _queue: 0
 --- !u!1 &3762019536221124443
 GameObject:
   m_ObjectHideFlags: 0
@@ -61,15 +81,15 @@ RectTransform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 7862064181912311914}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.56, y: -0.75}
-  m_SizeDelta: {x: 5, y: 5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 2.6471, y: 1.2588}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &8269296976821858341
 MeshRenderer:
@@ -160,15 +180,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 16
-  m_fontSizeBase: 16
+  m_fontSize: 14.26
+  m_fontSizeBase: 14.26
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -196,7 +216,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 2.2159667, w: 3.439713}
+  m_margin: {x: -0.0017728806, y: -0.03939891, z: 0.023689628, w: -0.025576353}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   _SortingLayer: 0
@@ -230,7 +250,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4358583642450997117}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.4, y: 0.89, z: 0}
+  m_LocalPosition: {x: 0.88, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -250,6 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c904bbfb3a10e284ea2bd4aae3ab7b1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  numberLabel: {fileID: 3762019536221124443}
 --- !u!1 &8812479076545482960
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,6 +282,7 @@ GameObject:
   - component: {fileID: 6127866414504840892}
   - component: {fileID: 5845876946113028221}
   - component: {fileID: 167287156673674049}
+  - component: {fileID: 7874741537085447799}
   m_Layer: 0
   m_Name: image
   m_TagString: Untagged
@@ -277,8 +299,8 @@ RectTransform:
   m_GameObject: {fileID: 8812479076545482960}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 1}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.45, y: 0.45, z: 0.45}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 2094084746149959867}
   m_RootOrder: 0
@@ -348,3 +370,16 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!135 &7874741537085447799
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8812479076545482960}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
