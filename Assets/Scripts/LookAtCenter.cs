@@ -4,27 +4,27 @@ using UnityEngine;
 
 public class LookAtCenter : MonoBehaviour
 {
-    Vector2 initial_distance;
+    float initial_distance;
+
+    public GameObject numberLabel;
 
     private void Awake()
     {
-        initial_distance = new Vector2(transform.localPosition.x, transform.localPosition.y);
+        initial_distance = Vector2.Distance(Vector2.zero, transform.localPosition);
     }
 
-    // Start is called before the first frame update
-    void Update()
+    void Start()
     {
-        // vector from camera to object
+        Vector2 campos = transform.parent.InverseTransformPoint(Camera.main.transform.position);
 
-        //global to local camera position
-        Vector3 campos = transform.InverseTransformPoint(Camera.main.transform.position);
+        Vector2 vl = new Vector2(transform.localPosition.x, transform.localPosition.y);
 
-        Vector3 v = transform.localPosition - campos;
-        //normalize vector
+        Vector2 v = campos - vl;
         v.Normalize();
 
-        //position object at distance from center to camera at distance on inital distance
-        transform.localPosition = new Vector3(- v.x * initial_distance.x, - v.y * initial_distance.y, transform.localPosition.z);
+        transform.localPosition = new Vector3(- v.x * initial_distance, - v.y * initial_distance, transform.localPosition.z);
+
+        numberLabel.transform.localPosition = new Vector3(v.x * initial_distance *2f, v.y * initial_distance * 2f, transform.localPosition.z);
     }
 
 }
