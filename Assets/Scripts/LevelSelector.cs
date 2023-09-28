@@ -53,25 +53,22 @@ public class LevelSelector : MonoBehaviour
                 
             }
         }
-        //detect mouse click
+#if UNITY_EDITOR || !UNITY_ANDROID && !UNITY_IOS 
         if (Input.GetMouseButtonDown(0))
         {
-            // Construct a ray from the current mouse coordinates
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            // Create a particle if hit
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit))
             {
                 if (hit.transform == this.transform)
                 {
-                    Debug.Log(hit.transform.gameObject.name);
-                    Debug.Log("Level " + level + " selected");
                     GameManager.Instance.levelToLoad = level;
                     onPressed.Invoke();
                 }
             }
         }
+#endif
     }
 
 }
