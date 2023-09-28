@@ -25,16 +25,6 @@ public class RopeManager : MonoBehaviour
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //Time.deltaTime;     
-        
-    }
-
-    //if controllerList.Count > 0 then add rope, position at first controller position and animate its height and direction to the second controller position
-    // once animation is done, remove the first controller from the list and continue with the next one, leave previous rope in place
-
     void AddRope()
     {
         GameObject rope = Instantiate(ropePrefab, transform);

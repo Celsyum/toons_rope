@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,6 +14,7 @@ public class DiamondController : MonoBehaviour
     public ClickEvent onPressed;
     public Texture2D texturePath;
     public TextMeshPro text;
+    public GameObject label;
     [HideInInspector]
     public int _queue = 0;
 
@@ -31,18 +31,21 @@ public class DiamondController : MonoBehaviour
         }
     }
 
-    
-    void Start()
-    {
-        //gameObject.GetComponent<SpriteRenderer>()
-        //change sprite
-        
-    }
-
     public void OnCorrectPressed()
     {
         background.sprite = Sprite.Create(texturePath, new Rect(0, 0, texturePath.width, texturePath.height), new Vector2(0.5f, 0.5f), 100f);
+        //tween label alpha to 0
+        iTween.ValueTo(label, iTween.Hash("from", 1f, "to", 0f, "time", 1f, "onupdate", "OnLabelTweenUpdate", "oncomplete", "OnLabelTweenEnded"));
+        
+        StartCoroutine(DelayedColliderDisable());
     }
+
+    IEnumerator DelayedColliderDisable()
+    {
+        yield return new WaitForSeconds(0.2f);
+        background.GetComponent<SphereCollider>().enabled = false;
+    }
+
 
     void Update()
     {
