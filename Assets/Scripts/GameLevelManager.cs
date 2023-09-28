@@ -6,8 +6,10 @@ public class GameLevelManager : MonoBehaviour
 {
     List<GameObject> points = new List<GameObject>();
 
-    public GameObject pink_button;
-    public GameObject blue_button;
+    public GameObject pinkButton;
+    public RopeManager ropeManager;
+
+    private int lastPressed = -1;
 
     // Start is called before the first frame update
     void Start()
@@ -20,25 +22,54 @@ public class GameLevelManager : MonoBehaviour
         {
             // just for testing from game scene
             GameManager.Instance.onLevelDataLoaded.AddListener(this.PrepareLevel);
-            GameManager.Instance.LoadLevelData();
+            //GameManager.Instance.LoadLevelData();
         }
     }
 
     void PrepareLevel()
     {
-        //GameManager.Instance.level_to_load
-        //GameManager.Instance.gameData
+       for (int i = 0; i < ConfigData.CONFIG_DATA.levels[GameManager.Instance.levelToLoad].level_data.Count-1; i+=2)
+       {
+           GameObject point = Instantiate(pinkButton, transform);
+           DiamondController diamondC = point.GetComponent<DiamondController>();
+            if (i == 0)
+            {
+                ropeManager.firstDiamond = diamondC;
+            }
+           diamondC.onPressed.AddListener(this.OnPointClicked);
+           diamondC.queue = points.Count;
+           point.transform.position = GetPointPosition(float.Parse(ConfigData.CONFIG_DATA.levels[GameManager.Instance.levelToLoad].level_data[i]), float.Parse(ConfigData.CONFIG_DATA.levels[GameManager.Instance.levelToLoad].level_data[i + 1]));
+           points.Add(point);       
+       }
 
-        //ConfigData.CONFIG_DATA.levels[GameManager.Instance.level_to_load].level_data
-
-        for (int i = 0; i < ConfigData.CONFIG_DATA.levels[GameManager.Instance.levelToLoad].level_data.Count-1; i+=2)
-        {
-            GameObject point = Instantiate(pink_button, transform);
-            point.transform.position = GetPointPosition(float.Parse(ConfigData.CONFIG_DATA.levels[GameManager.Instance.levelToLoad].level_data[i]), float.Parse(ConfigData.CONFIG_DATA.levels[GameManager.Instance.levelToLoad].level_data[i + 1]));
-            points.Add(point);
-            
-        }
+       ropeManager.onAllRopeAnimationsDone.AddListener(this.OnAllRopeAnimationsDone);
     }
+
+    void OnAllRopeAnimationsDone()
+    {
+        Debug.Log("All rope animations done");
+    }
+
+    void OnPointClicked(DiamondController diamond)
+    { 
+        if (lastPressed + 1 == diamond.queue)
+        {
+            ropeManager.AddController(diamond);
+            
+            diamond.OnCorrectPressed();
+            lastPressed++;
+
+            if (lastPressed == points.Count - 1)
+            {
+                Debug.Log("Level completed");
+                ropeManager.lastDiamond = true;
+            }
+        }
+        else
+        {
+            Debug.Log("Wrong point");
+        }
+    }   
 
     Vector2 GetPointPosition(float posX, float posY)
     {
