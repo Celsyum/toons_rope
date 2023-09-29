@@ -485,6 +485,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: green-arrow1
       objectReference: {fileID: 0}
+    - target: {fileID: 5069301929715106877, guid: 0670fd35360a22e47b8cdf8182af6341, type: 3}
+      propertyPath: area
+      value: 
+      objectReference: {fileID: 269182853}
+    - target: {fileID: 5069301929715106877, guid: 0670fd35360a22e47b8cdf8182af6341, type: 3}
+      propertyPath: autoplay
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5069301929715106877, guid: 0670fd35360a22e47b8cdf8182af6341, type: 3}
+      propertyPath: outDirection.x
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5492367938171787790, guid: 0670fd35360a22e47b8cdf8182af6341, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -634,6 +646,7 @@ MonoBehaviour:
   pinkButton: {fileID: 2094084746149959861, guid: 1bb9aeaee97415a45b3c89754fea5840, type: 3}
   ropeManager: {fileID: 831970566}
   safeArea: {fileID: 269182853}
+  backButton: {fileID: 1908512823}
 --- !u!1 &1153222647
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,3 +928,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1908512823 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3799860235598580117, guid: 0670fd35360a22e47b8cdf8182af6341, type: 3}
+  m_PrefabInstance: {fileID: 1081336472}
+  m_PrefabAsset: {fileID: 0}
