@@ -11,6 +11,8 @@ public class GameLevelManager : MonoBehaviour
     public RopeManager ropeManager;
     public RectTransform safeArea;
 
+    public GameObject backButton;
+
     private int lastPressed = -1;
 
     // Start is called before the first frame update
@@ -52,7 +54,7 @@ public class GameLevelManager : MonoBehaviour
     void OnAllRopeAnimationsDone()
     {
         Debug.Log("All rope animations done");
-        this.LoadScene("Menu");
+        backButton.GetComponent<OffScreenTweener>().StartAnimation();
     }
 
     public void LoadScene(string name)

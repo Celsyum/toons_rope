@@ -7,6 +7,8 @@ public class Menu : MonoBehaviour
 {
     public GameObject levelSelector;
     public Camera mainCamera;
+    public GameObject navLeft;
+    public GameObject navRight;
 
     private GameManager gameManager;
 
