@@ -5,10 +5,10 @@ public class Rope : MonoBehaviour
     public UnityEngine.Events.UnityEvent onRopeAnimationDone;
 
     SpriteRenderer spriteRenderer;
+    
     float height = 0f;
     public float speed = 1f;
 
-    // Start is called before the first frame update
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();        
@@ -36,7 +36,7 @@ public class Rope : MonoBehaviour
         if (spriteRenderer.size.y < height)
         {
             float ht = spriteRenderer.size.y + speed * Time.deltaTime;
-            if (ht >= height)
+            if (ht > height)
             {
                 onRopeAnimationDone.Invoke();
                 ht = height;
@@ -44,4 +44,5 @@ public class Rope : MonoBehaviour
             spriteRenderer.size = new Vector2(spriteRenderer.size.x, ht);
         }
     }
+
 }
