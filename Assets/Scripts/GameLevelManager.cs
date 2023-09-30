@@ -15,6 +15,8 @@ public class GameLevelManager : MonoBehaviour
 
     private int lastPressed = -1;
 
+    private int score = 3;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,8 +57,17 @@ public class GameLevelManager : MonoBehaviour
     {
         Debug.Log("All rope animations done");
         backButton.GetComponent<OffScreenTweener>().StartAnimation();
+        // save game data
+        // check if gamedat.completion[levelToLoad] exists
+        if (GameManager.Instance.gameData.completion.Count > GameManager.Instance.levelToLoad)
+        {
+            GameManager.Instance.gameData.completion[GameManager.Instance.levelToLoad] = score < 0 ? 0 : score;
+        } else GameManager.Instance.gameData.completion.Add(score < 0 ? 0 : score);
+        if (score == 3 && GameManager.Instance.gameData.current_level <= GameManager.Instance.levelToLoad && GameManager.Instance.gameData.current_level < ConfigData.CONFIG_DATA.levels.Count-1) GameManager.Instance.gameData.current_level = GameManager.Instance.levelToLoad + 1;
+        GameManager.SaveState(GameManager.Instance);
     }
 
+    
     public void LoadScene(string name)
     {         
         SceneManager.LoadScene(name);
@@ -79,6 +90,7 @@ public class GameLevelManager : MonoBehaviour
         }
         else
         {
+            score--;
             Debug.Log("Wrong point");
         }
     }
