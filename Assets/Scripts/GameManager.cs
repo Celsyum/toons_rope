@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
 
      private void Awake()
     {
+        Debug.Log(Application.persistentDataPath);
         if (_instance != null && _instance != this)
         {
             Destroy(gameObject);
@@ -45,6 +46,13 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject); //not needed if you remove GameManager from other scenes
     }
 
+    public void ResetLevel()
+    {
+        levelToLoad = 0;
+        gameData.current_level = 0;
+        gameData.completion = new List<int>();
+        SaveState(GameManager.Instance);
+    }
 
     public void LoadLevelData()
     {
