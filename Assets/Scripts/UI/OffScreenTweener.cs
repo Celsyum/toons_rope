@@ -4,46 +4,33 @@ public class OffScreenTweener : MonoBehaviour
 {
     public bool autoplay = false;
     public bool animationIn = true;
-    public Vector2 outDirection = Vector2.zero;
-    public RectTransform area;
+    public Vector3 outDirection = Vector3.zero;
 
     private Vector3 _originalPosition;
+    private Vector3 _originalWorldPosition;
+    private Vector3 _directionWorlPosition;
+
+    private RectTransform rectTransform;
+    private bool animating = false;
 
     void Awake()
     {
-        _originalPosition = transform.localPosition;
+        rectTransform = GetComponent<RectTransform>();
+        _originalPosition = rectTransform.anchoredPosition;
+        _originalWorldPosition = rectTransform.position;
+        _directionWorlPosition = WorldPositionForDirection();
+
         if (animationIn)
-        {                  
-            //Debug.Log(area.rect);
-            Debug.Log(area.parent.localScale);
-            Debug.Log(transform.localScale);
-            Debug.Log((transform as RectTransform).rect.width * transform.localScale.x);
-            
-            transform.localPosition = GetPositionForDirection();
+        {
+            rectTransform.anchoredPosition = GetPositionForDirection();
         }
     }
 
     Vector3 GetPositionForDirection()
     {
-        Rect parentRect = area.parent.GetComponent<RectTransform>().rect;
         Vector3 position = _originalPosition;
-        if (outDirection.x < 0)
-        {
-            position.x = parentRect.xMin - ((transform as RectTransform).rect.width * transform.localScale.x) - 3f;
-        }
-        else if (outDirection.x > 0)
-        {
-            position.x = parentRect.xMax + ((transform as RectTransform).rect.width * transform.localScale.x) + 3f;
-        }
-
-        if (outDirection.y < 0)
-        {
-            position.y = area.rect.yMin - ((transform as RectTransform).rect.height * transform.localScale.y) - 3f;
-        }
-        else if (outDirection.y > 0)
-        {
-            position.y = area.rect.yMax + ((transform as RectTransform).rect.height * transform.localScale.y) + 3f;
-        }
+        _originalPosition.x += outDirection.x;
+        _originalPosition.y += outDirection.y;
 
         return position;
 
@@ -52,37 +39,50 @@ public class OffScreenTweener : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (autoplay)
-        {
+       if (autoplay)
+       {
             StartAnimation();
-        }
+       }
     }
 
     public void StartAnimation()
     {
+
         if (animationIn)
         {
-            iTween.MoveTo(gameObject, iTween.Hash("position", _originalPosition, "isLocal", true , "time", 1f, "easetype", iTween.EaseType.easeOutBack));
+            iTween.MoveTo(gameObject, iTween.Hash("position", _originalWorldPosition, "time", 1f, "easetype", iTween.EaseType.easeOutBack));
         }
         else
         {
-            iTween.MoveTo(gameObject, iTween.Hash("position", GetPositionForDirection(), "isLocal", true, "time", 1f, "easetype", iTween.EaseType.easeInBack));
+            iTween.MoveTo(gameObject, iTween.Hash("position", _directionWorlPosition, "time", 1f, "easetype", iTween.EaseType.easeInBack));
         }
+        animating = true;
+    }
+
+    Vector3 WorldPositionForDirection()
+    {
+        Vector3 tempPos = rectTransform.anchoredPosition;
+        rectTransform.anchoredPosition = GetPositionForDirection();
+        Vector3 tempPos2 = rectTransform.position;
+
+        rectTransform.anchoredPosition = tempPos;
+        return tempPos2;
     }
 
     // Update is called once per frame
     void Update()
-    {
+    {       
+        if (!animating) return;
         if (animationIn)
         {
-            if (transform.localPosition == _originalPosition)
+            if (Vector3.Distance(transform.position, _originalWorldPosition) < 0.01f)
             {
                 enabled = false;
             }
         }
         else
         {
-            if (transform.localPosition == GetPositionForDirection())
+            if (Vector3.Distance(transform.position, _directionWorlPosition) < 0.01f)
             {
                 enabled = false;
             }
