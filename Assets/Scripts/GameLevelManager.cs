@@ -85,10 +85,12 @@ public class GameLevelManager : MonoBehaviour
             
             diamond.OnCorrectPressed();
             lastPressed++;
-
+            AudioManager.instance.PlaySFX("click");
             if (lastPressed == points.Count - 1)
             {
                 Debug.Log("Level completed");
+                AudioManager.instance.PlaySFX("levelEnd");
+                AudioManager.instance.musicSource.Stop();
                 ropeManager.lastDiamond = true;
             }
         }

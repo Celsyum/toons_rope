@@ -18,8 +18,8 @@ public class Menu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        gameManager = GameManager.Instance;    
-     
+        gameManager = GameManager.Instance;
+        AudioManager.instance.PlayMusic("bg");
         StartCoroutine(isDataLoaded());        
     }
 
@@ -75,6 +75,7 @@ public class Menu : MonoBehaviour
 
             levSelector.onPressed.AddListener(() =>
             {
+                AudioManager.instance.PlaySFX("click");
                 SceneManager.LoadScene("Game");
             });
 

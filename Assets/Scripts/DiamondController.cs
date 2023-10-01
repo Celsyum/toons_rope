@@ -57,7 +57,6 @@ public class DiamondController : MonoBehaviour, IPointerClickHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("OnPointerClick");
         onPressed.Invoke(this);
     }
 
