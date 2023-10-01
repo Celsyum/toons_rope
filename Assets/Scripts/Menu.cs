@@ -67,11 +67,11 @@ public class Menu : MonoBehaviour
             int x = i % 3;
             int y = items / 3;
 
-            //tween button.transform.localPosition to  new Vector3(topLeft.x + marginX + x * spacerX, topLeft.y - marginY - y * spacerY);   from top
             Vector3 pos = new Vector3(topLeft.x + marginX + x * spacerX, topLeft.y - marginY - y * spacerY);
-            pos.x += fromRight ? -30f : 30f;
             button.transform.localPosition = pos;
-            iTween.MoveTo(button, iTween.Hash("position", new Vector3(topLeft.x + marginX + x * spacerX, topLeft.y - marginY - y * spacerY), "time", 1f, "delay", items * 0.1f, "easetype", iTween.EaseType.easeOutBack));
+            
+            button.transform.localScale = Vector3.zero;
+            iTween.ScaleTo(button, iTween.Hash("scale", Vector3.one, "time", 1f, "delay", items * 0.1f, "easetype", iTween.EaseType.easeOutBounce));
 
             levSelector.onPressed.AddListener(() =>
             {
@@ -125,12 +125,12 @@ public class Menu : MonoBehaviour
 
     void OnNav(bool moveRight)
     {
-        //animate all buttons to the direction of movieRight with delay of each button
         for (int i = 0; i < selectors.Count; i++)
         {
-            Vector3 pos = selectors[i].transform.localPosition;
-            pos.x += moveRight ? 30f : -30f;
-            iTween.MoveTo(selectors[i], iTween.Hash("position", pos, "time", 1f, "delay", i * 0.1f, "easetype", iTween.EaseType.easeOutBack, "oncomplete", "MenuAnimationsEnded", "oncompletetarget", gameObject, "oncompleteparams", moveRight));
+            if (i == selectors.Count-1)
+                iTween.ScaleTo(selectors[i], iTween.Hash("scale", Vector3.zero, "time", 1f, "delay", i * 0.1f, "easetype", iTween.EaseType.easeInQuart, "oncomplete", "MenuAnimationsEnded", "oncompletetarget", gameObject, "oncompleteparams", moveRight));
+            else
+                iTween.ScaleTo(selectors[i], iTween.Hash("scale", Vector3.zero, "time", 1f, "delay", i * 0.1f, "easetype", iTween.EaseType.easeInQuart));
         }
     }
 
