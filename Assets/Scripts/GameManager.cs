@@ -51,7 +51,8 @@ public class GameManager : MonoBehaviour
         levelToLoad = 0;
         gameData.current_level = 0;
         gameData.completion = new List<int>();
-        SaveState(GameManager.Instance);
+        
+        SaveState(this);
     }
 
     public void LoadLevelData()

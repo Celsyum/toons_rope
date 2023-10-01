@@ -5,6 +5,7 @@ using System.Collections.Generic;
 public class GameData
 {
     public int current_level = 0;
+    // each level has points earned
     public List<int> completion = new List<int>();
 
     public GameData(GameManager manager)
