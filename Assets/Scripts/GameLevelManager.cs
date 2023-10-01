@@ -1,7 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameLevelManager : MonoBehaviour
 {
@@ -12,6 +12,7 @@ public class GameLevelManager : MonoBehaviour
     public RectTransform safeArea;
 
     public GameObject backButton;
+    public Image background;
 
     private int lastPressed = -1;
 
@@ -26,10 +27,10 @@ public class GameLevelManager : MonoBehaviour
         }
         else
         {
-            // just for testing from game scene
-            GameManager.Instance.onLevelDataLoaded.AddListener(this.PrepareLevel);
-            //GameManager.Instance.LoadLevelData();
+            GameManager.Instance.onLevelDataLoaded.AddListener(this.PrepareLevel);        
         }
+
+        background.material.SetFloat("_Force", 1f);
     }
 
     void PrepareLevel()
@@ -86,6 +87,7 @@ public class GameLevelManager : MonoBehaviour
             diamond.OnCorrectPressed();
             lastPressed++;
             AudioManager.instance.PlaySFX("click");
+
             if (lastPressed == points.Count - 1)
             {
                 Debug.Log("Level completed");
