@@ -146,7 +146,7 @@ Material:
     - _Flip: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _RendererColor: {r: 1, g: 1, b: 1, a: 1}
-    - _TouchPos: {r: 0.48225218, g: 0.09961921, b: 0, a: 0}
+    - _TouchPos: {r: 0.3084455, g: 0.29545763, b: 0, a: 0}
     - _UnderlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   m_BuildTextureStacks: []
 --- !u!114 &2504512375207340893
