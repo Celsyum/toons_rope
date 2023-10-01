@@ -36,18 +36,21 @@ public class GameLevelManager : MonoBehaviour
     {
         Rect safeRect = CalculateSafeRectForView();
 
-       for (int i = 0; i < ConfigData.CONFIG_DATA.levels[GameManager.Instance.levelToLoad].level_data.Count-1; i+=2)
-       {
-           GameObject point = Instantiate(pinkButton, transform);
-           DiamondController diamondC = point.GetComponent<DiamondController>();
+        List<string> levelData = ConfigData.CONFIG_DATA.levels[GameManager.Instance.levelToLoad].level_data;
+        for (int i = 0; i < levelData.Count-1; i+=2)
+        {
+            GameObject point = Instantiate(pinkButton, transform);
+            point.name = "Diamond"+ (i/2);
+            DiamondController diamondC = point.GetComponent<DiamondController>();
             if (i == 0)
             {
                 ropeManager.firstDiamond = diamondC;
             }
-           diamondC.onPressed.AddListener(this.OnPointClicked);
-           diamondC.queue = points.Count;
-           point.transform.position = GetPointPosition(float.Parse(ConfigData.CONFIG_DATA.levels[GameManager.Instance.levelToLoad].level_data[i]), float.Parse(ConfigData.CONFIG_DATA.levels[GameManager.Instance.levelToLoad].level_data[i + 1]), i, safeRect);
-           points.Add(point);       
+            diamondC.onPressed.AddListener(this.OnPointClicked);
+            diamondC.queue = points.Count;
+            if (levelData.Count > 20) diamondC.make_centered = true;
+            point.transform.position = GetPointPosition(float.Parse(levelData[i]), float.Parse(levelData[i + 1]), i, safeRect);
+            points.Add(point);       
        }
 
        ropeManager.onAllRopeAnimationsDone.AddListener(this.OnAllRopeAnimationsDone);
@@ -61,7 +64,8 @@ public class GameLevelManager : MonoBehaviour
         // check if gamedat.completion[levelToLoad] exists
         if (GameManager.Instance.gameData.completion.Count > GameManager.Instance.levelToLoad)
         {
-            GameManager.Instance.gameData.completion[GameManager.Instance.levelToLoad] = score < 0 ? 0 : score;
+            if (GameManager.Instance.gameData.completion[GameManager.Instance.levelToLoad] < score)
+                GameManager.Instance.gameData.completion[GameManager.Instance.levelToLoad] = score < 0 ? 0 : score;
         } else GameManager.Instance.gameData.completion.Add(score < 0 ? 0 : score);
         if (score == 3 && GameManager.Instance.gameData.current_level <= GameManager.Instance.levelToLoad && GameManager.Instance.gameData.current_level < ConfigData.CONFIG_DATA.levels.Count-1) GameManager.Instance.gameData.current_level = GameManager.Instance.levelToLoad + 1;
         GameManager.SaveState(GameManager.Instance);
@@ -145,7 +149,7 @@ public class GameLevelManager : MonoBehaviour
         float spacerX = screenHalfWidth * 2f / 1000f;
         float spacerY = screenHalfHeight * 2f / 1000f;
 
-        return new Vector3(safeRect.x + spacerX * posX, safeRect.y - spacerY * posY, i / 1000f);
+        return new Vector3(safeRect.x + spacerX * posX, safeRect.y - spacerY * posY, i / 100f);
     }
 
     public void OnResizedWindow()
