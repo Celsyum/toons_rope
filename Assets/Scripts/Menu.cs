@@ -114,6 +114,7 @@ public class Menu : MonoBehaviour
     {
         Debug.Log("OnNavLeft");
         currentPage--;
+        if (currentPage < 0) currentPage = 0;
         this.OnNav(true);
     }
 
@@ -121,6 +122,7 @@ public class Menu : MonoBehaviour
     {
         Debug.Log("OnNavRight");
         currentPage++;
+        if (currentPage > ConfigData.CONFIG_DATA.levels.Count / totalPerPage - 1) currentPage = ConfigData.CONFIG_DATA.levels.Count / totalPerPage - 1;
         this.OnNav(false);
     }
 
